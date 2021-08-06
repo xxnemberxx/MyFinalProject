@@ -9,10 +9,9 @@ namespace Business.Abstract
 {
     public interface ICustomerService
     {
-        public IDataResult<List<Customer>> GetAll();
-        public IDataResult<Customer> GetById(int customerId);
-        public IDataResult<List<Customer>> GetByCountry(string country);
-        public IDataResult<List<Customer>> GetByCity(string city);
+        IDataResult<List<Customer>> GetAll();
+        IDataResult<Customer> GetById(string customerId);
+        IDataResult<List<CustomerOrdersDto>> GetCustomerOrders();
 
     }
 }

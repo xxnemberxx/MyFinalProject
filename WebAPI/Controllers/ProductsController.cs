@@ -27,18 +27,41 @@ namespace WebAPI.Controllers
         {
             _productManager = productManager;
         }
-        [HttpGet]
-        public IActionResult GetAllProducts()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             // Swagger
             // Dependency chain --
-            var result =_productManager.GetAll();
-            if(result.Success)
+            var result = _productManager.GetAll();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
+        {
+            var result = _productManager.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(Product product)
+        {
+            var result = _productManager.Add(product);
+
+            if (result.Success)
             {
                 return Ok(result);
             }
-
-            return BadRequest(result);
+            return BadRequest(result.Message);
         }
     }
 }
