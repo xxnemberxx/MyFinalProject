@@ -16,12 +16,6 @@ namespace WebAPI.Controllers
     [ApiController] // c# Attribute -- Java Annotation
     public class ProductsController : ControllerBase
     {
-
-        /// <summary>
-        /// Loosely Coupled
-        /// naming convention 
-        /// IOC Cotainer --> Inversion Of Control
-        /// </summary>
         private IProductService _productManager;
         public ProductsController(IProductService productManager)
         {
@@ -30,8 +24,6 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            // Swagger
-            // Dependency chain --
             var result = _productManager.GetAll();
             if (result.Success)
             {

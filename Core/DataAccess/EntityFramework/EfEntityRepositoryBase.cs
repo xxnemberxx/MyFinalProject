@@ -27,9 +27,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity); // referansını getir
-                deletedEntity.State = EntityState.Deleted; // Silme işlemi olacak
-                context.SaveChanges(); // İşlemleri gerçekleştir
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
             }
         }
 
@@ -55,9 +55,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(entity); // referansını getir
-                updatedEntity.State = EntityState.Modified; // Güncelleme işlemi olacak
-                context.SaveChanges(); // İşlemleri gerçekleştir
+                var updatedEntity = context.Entry(entity); 
+                updatedEntity.State = EntityState.Modified; 
+                context.SaveChanges();
             }
         }
     }

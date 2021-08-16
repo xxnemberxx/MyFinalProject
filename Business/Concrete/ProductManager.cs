@@ -1,20 +1,14 @@
 ﻿using Business.Abstract;
-using Business.CCS;
+using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntıtyFramework;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -28,13 +22,13 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(
                 CheckIfProductCountCategoryCorrect(product.CategoryId),
-                CheckIfProductNameAlreadyExists(product.ProductName),
-                CheckIfCategoryLimitExceded()
+                CheckIfProductNameAlreadyExists(product.ProductName)
                 );
 
             if(result != null)
@@ -79,16 +73,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
         // -- Business Rules
-        private IResult CheckIfCategoryLimitExceded()
-        {
-            var result = _categoryService.GetAll().Data.Count;
-            if (result >= 15)
-            {
-                return new ErrorResult(Messages.CategoryLimitExceded);
-            }
-
-            return new SuccessResult();
-        }
         private IResult CheckIfProductNameAlreadyExists(string productName)
         {
             var result = _productDal.GetAll(p => p.ProductName == productName).Count;
@@ -104,10 +88,10 @@ namespace Business.Concrete
             var result = _productDal.GetAll(p => p.CategoryId == CategoryId).Count;
             if (result != 0)
             {
-                return new ErrorResult(Messages.ProductCountOfCategoryError);
+                return new SuccessResult();
             }
 
-            return new SuccessResult();
+            return new ErrorResult(Messages.ProductCountOfCategoryError);
         }
     }
 }

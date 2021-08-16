@@ -13,7 +13,6 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             Console.WriteLine("Merhaba");
-            ProductTest();
             //CategoryTest();
 
         }
@@ -27,14 +26,5 @@ namespace ConsoleUI
             }
         }
 
-        private static void ProductTest()
-        {
-            ProductManager productManager = new ProductManager(new EfProductDal());
-            var result = productManager.GetAll();
-            foreach (var i in result.Data)
-                Console.WriteLine($"{i.ProductId}, {i.ProductName}");
-
-
-        }
     }
 }
